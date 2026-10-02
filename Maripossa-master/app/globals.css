@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* offset for the sticky header when jumping to #anchors */
+  scroll-padding-top: 84px;
+}
+
+body {
+  background: #fbf3e6; /* warm crust */
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fraunces has no Arabic glyphs — switch display + body to Cairo in RTL */
+html[dir="rtl"] body {
+  font-family: var(--font-ar), var(--font-sans), system-ui, sans-serif;
+}
+html[dir="rtl"] .font-display {
+  font-family: var(--font-ar), Georgia, serif;
+  font-weight: 800;
+}
+
+/* warm text selection */
+::selection {
+  background: #e4552a;
+  color: #fff;
+}
+
+/* slim warm scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d9c4a0;
+  border-radius: 999px;
+  border: 3px solid #fbf3e6;
+}
+
+/* hide scrollbars but keep scrolling (used on the category rail) */
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* fine grain texture for dark sections — keeps them from feeling flat */
+.grain {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px
+  );
+  background-size: 4px 4px;
+}
+
+/* --- hero: real-photo animation ------------------------------------ */
+
+/* the pizza photo turns like it's on a wood-fire stone */
+@keyframes heroSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hero-spin {
+  animation: heroSpin 28s linear infinite;
+  will-change: transform;
+}
+
+/* satellite dishes bobbing around the pizza */
+@keyframes heroBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.hero-bob {
+  animation: heroBob 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* firelight flicker washing over the section */
+@keyframes heroFlicker {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  22% {
+    opacity: 0.85;
+  }
+  38% {
+    opacity: 0.6;
+  }
+  58% {
+    opacity: 0.95;
+  }
+  78% {
+    opacity: 0.65;
+  }
+}
+.hero-flicker {
+  animation: heroFlicker 4.5s ease-in-out infinite;
+}
+
+/* editorial marquee strip */
+@keyframes heroMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.hero-marquee {
+  animation: heroMarquee 22s linear infinite;
+}
+html[dir="rtl"] .hero-marquee {
+  animation-direction: reverse;
+}
+
+/* Maripossa butterflies crossing the hero */
+@keyframes heroFly {
+  0% {
+    transform: translate(-10vw, 10vh) rotate(6deg);
+  }
+  25% {
+    transform: translate(22vw, -2vh) rotate(-8deg);
+  }
+  50% {
+    transform: translate(52vw, 12vh) rotate(10deg);
+  }
+  75% {
+    transform: translate(80vw, 0vh) rotate(-6deg);
+  }
+  100% {
+    transform: translate(112vw, 8vh) rotate(6deg);
+  }
+}
+.hero-fly {
+  animation: heroFly 26s linear infinite;
+  will-change: transform;
+}
+html[dir="rtl"] .hero-fly {
+  animation-direction: reverse;
+}
+
+@keyframes heroFlapL {
+  from {
+    transform: rotateY(10deg);
+  }
+  to {
+    transform: rotateY(70deg);
+  }
+}
+@keyframes heroFlapR {
+  from {
+    transform: rotateY(-10deg);
+  }
+  to {
+    transform: rotateY(-70deg);
+  }
+}
+.hero-wing-l,
+.hero-wing-r {
+  position: absolute;
+  top: 0;
+  width: 46%;
+  height: 100%;
+  background: radial-gradient(circle at 35% 35%, #f6c453, #e4552a 75%);
+}
+.hero-wing-l {
+  left: 2%;
+  transform-origin: right center;
+  border-radius: 80% 20% 60% 40% / 60% 40% 70% 30%;
+  animation: heroFlapL 0.22s ease-in-out infinite alternate;
+}
+.hero-wing-r {
+  right: 2%;
+  transform-origin: left center;
+  border-radius: 20% 80% 40% 60% / 40% 60% 30% 70%;
+  animation: heroFlapR 0.22s ease-in-out infinite alternate;
+}
+
+/* steam wisps rising off the pizza */
+@keyframes heroSteam {
+  0% {
+    transform: translateY(14px) translateX(0) scale(0.8);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.55;
+  }
+  60% {
+    opacity: 0.26;
+  }
+  100% {
+    transform: translateY(-120px) translateX(16px) scale(1.55);
+    opacity: 0;
+  }
+}
+.hero-steam {
+  animation: heroSteam 6.5s ease-in-out infinite;
+  filter: blur(9px);
+}
+
+/* embers drifting up from the oven */
+@keyframes heroSpark {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-160px) scale(1);
+    opacity: 0;
+  }
+}
+.hero-spark {
+  animation: heroSpark 7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  /* hero motion calms down instead of freezing (owner's machine reports
+     reduced motion via a Windows setting — a frozen hero reads as broken) */
+  .hero-spin {
+    animation-duration: 48s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-steam {
+    animation-duration: 9s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-spark {
+    animation-duration: 11s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-flicker {
+    animation-duration: 7s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-bob {
+    animation-duration: 9s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-marquee {
+    animation-duration: 40s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-fly {
+    animation-duration: 44s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .hero-wing-l,
+  .hero-wing-r {
+    animation-duration: 0.4s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
